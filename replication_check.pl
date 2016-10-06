@@ -27,12 +27,16 @@ use POSIX qw(strftime);
 ##### VARIABLES #####
 my $res1 = "";
 my $res2 = "";
-my $SSH_USR = "mrisser";
+my $SSH_USR = "YOURUSERNAME";
 
 # Copy and change the following line as many times as needed to cover all
 # of your FreeNAS(R) servers
-my $tns1 = "192.168.1.28";
-my $tns2 = "192.168.3.21";
+my $tns1 = "FREENASBOX1";
+my $tns2 = "FREENASBOX2";
+
+# Change these lines to change the location of the report
+$RPRT_DIR = "/tmp";
+$RPRT_NAME = "replication_report.txt";
 
 # The following line is what gets run on the FreeNAS(R) server to show
 # the progress of the replication.
@@ -79,8 +83,10 @@ sub get_rep_status {
 	my @mabbr = qw(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec);
 	my ($seconds, $minutes, $hour, $monthday, $month, $year, $wday, $yday, $isdst) = localtime(time);
 	
+	# Correct the display of the year
 	$year += 1900;
 	
+	# Add a 0 in front of the number if it is less than ten, just enhances readability
 	if($seconds < 10) {
 		$seconds = "0" . $seconds;
 	}
@@ -91,10 +97,6 @@ sub get_rep_status {
 	
 	if($hour < 10) {
 		$hour = "0" . $hour;
-	}
-	
-	if($month < 10) {
-		$month = "0" . $month;
 	}
 	
 	if($monthday < 10) {
@@ -119,9 +121,9 @@ print "\n$res1\n";
 print "\n$res2\n";
 
 # Write the results to a file for later comparisson
-my $dir = dir("/tmp"); # /tmp
+my $dir = dir($RPRT_DIR);
 
-my $file = $dir->file("replication-report.txt"); # /tmp/file.txt
+my $file = $dir->file($RPRT_NAME);
 
 # Get a file_handle (IO::File object) you can write to
 my $fh = $file->open('>>');
