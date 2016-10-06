@@ -3,11 +3,11 @@
 import paramiko
 import getpass
 
-SSHUSER = "mrisser"
+SSHUSER = "YOURUSERNAME"
 SSHPASSWD = getpass.getpass("SSH Password: ")
 
-TNS1 = "192.168.1.28"
-TNS2 = "192.168.3.21"
+TNS1 = "FREENASBOX1"
+TNS2 = "FREENASBOX2"
 
 PS = 'ps auxwwU root | grep "zfs:" | sed "s/\// /g"'
 
